@@ -5,6 +5,7 @@ from cube import Cube
 import pandas as pd
 
 # Adding comment to create PR
+# Random comment to create PR
 class SolvePuzzle:
     def __init__(self) -> None:
 
