@@ -1,5 +1,4 @@
 import random
-import pandas
 class Cube:
     def __init__(self, front, back, left, right, top, bottom):
         # Front, back, left, right, top, bottom
@@ -9,6 +8,9 @@ class Cube:
         self.right = right
         self.top = top
         self.bottom = bottom
+
+    def get_cube_orientation(self):
+        return self.front, self.back, self.left, self.right, self.top, self.bottom
 
     def __str__(self) -> str:
         return f"Cube Front: {self.front}, Cube Back: {self.back}, Cube Left: {self.left}, Cube Right: {self.right}, Cube Top: {self.top}, Cube Bottom: {self.bottom}"
@@ -25,17 +27,23 @@ class Cube:
         else:
             raise ValueError(f"Axis must be 'x', 'y', or 'z', not {axis}")
         
-    def get_orientation(self):
-        return pandas.Series([self.front, self.back, self.left, self.right, self.top, self.bottom], index=["Front", "Back", "Left", "Right", "Top", "Bottom"])
-        
     def list_all_possible_orientations_per_cube(self):
         all_possible_orientations = []
         for _ in range(4):
             for _ in range(4):
                 for _ in range(4):
                     # Front, back, left, right, top, bottom
-                    possible_orientation = Cube(self.front, self.back, self.left, self.right, self.top, self.bottom)
-                    all_possible_orientations.append(possible_orientation)
+                    possible_orientation = self.get_cube_orientation()
+                    if possible_orientation not in all_possible_orientations:
+                        cube_pos = {
+                            "front": possible_orientation[0],
+                            "back": possible_orientation[1],
+                            "left": possible_orientation[2],
+                            "right": possible_orientation[3],
+                            "top": possible_orientation[4],
+                            "bottom": possible_orientation[5]
+                        }
+                        all_possible_orientations.append(cube_pos)
                     self.rotate_cube("z")
                 self.rotate_cube("y")
             self.rotate_cube("x")
